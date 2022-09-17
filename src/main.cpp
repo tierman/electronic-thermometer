@@ -4,6 +4,10 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <BMP180.h>
+#include "WiFi.h"
+#include <ESPAsyncWebServer.h>
+#include <AsyncTCP.h>
+#include "SPIFFS.h"
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
@@ -19,7 +23,11 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 const int motionSensor = 27;
 
-BMP180 bmp(BMP180_ULTRAHIGHRES);
+const char* ssid = "thermometer-ap";
+const char* password = "123456789";
+
+BMP180 bmp(BMP180_STANDARD);
+AsyncWebServer server(80);
 
 void initDisplay();
 void initBmpSensor();
@@ -29,6 +37,16 @@ void setup() {
   initDisplay();
   initBmpSensor();
   pinMode(motionSensor, INPUT);
+
+  WiFi.softAP(ssid, password);
+  
+  SPIFFS.begin(true);
+
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+      request->send(SPIFFS, "/index.html", "text/html", false, nullptr);
+    });
+  server.serveStatic("/", SPIFFS, "/");
+  server.begin();
 }
 
 void displayPressureAndHumidityScreen();
@@ -65,6 +83,7 @@ void displayPressureAndHumidityScreen() {
 
   display.print(humidity);
   display.println(" C");
+  display.println(WiFi.gatewayIP());
   display.display();
 }
 
