@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>THERMOMENTER</title>
+  <title>THERMOMETER</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
   <div class="topnav">
-    <h1>THERMOMENTER</h1>
+    <h1>THERMOMETER</h1>
   </div>
   <div class="content">
     <div class="card-grid">
       <div class="card">
+        <table>
+            <tr>
+              <th>MEASUREMENT</th>
+              <th>VALUE</th>
+            </tr>
+            <tr>
+              <td>Temp. Celsius</td>
+              <td id="temp">%TEMPERATURE% &deg;C</td>
+            </tr>
+            <tr>
+              <td>Pressure</td>
+              <td id="press">%PRESSURE% hPa</td>
+            </tr>
+          </table>
       </div>
     </div>
   </div>

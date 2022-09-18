@@ -50,6 +50,7 @@ void initBmpSensor();
 String readFile(fs::FS &fs, const char * path);
 void writeFile(fs::FS &fs, const char * path, const char * message);
 bool initWiFi();
+String processor(const String& var);
 
 void setup() {
   // Serial port for debugging purposes
@@ -70,7 +71,7 @@ void setup() {
 
   if(initWiFi()) {
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/index.html", "text/html", false, nullptr);
+        request->send(SPIFFS, "/index.html", "text/html", false, processor);
       });
     server.serveStatic("/", SPIFFS, "/");
     server.begin();
@@ -81,7 +82,6 @@ void setup() {
         request->send(SPIFFS, "/wifimanager.html", "text/html", false, nullptr);
       });
     server.serveStatic("/", SPIFFS, "/");
-    server.begin();
 
     server.on("/", HTTP_POST, [](AsyncWebServerRequest *request) {
       int params = request->params();
@@ -132,6 +132,17 @@ void loop() {
   delay(1000);
 }
 
+String processor(const String& var){
+  //Serial.println(var);
+  if(var == "TEMPERATURE"){
+    return String(bmp.getTemperature());
+  }
+  else if(var == "PRESSURE"){
+    return String(bmp.getPressure() / 100);
+  }
+  return String();
+}
+
 void displayPressureAndHumidityScreen() {
   display.setCursor(0, 0); // Start at top-left corner
   display.clearDisplay();
@@ -158,7 +169,7 @@ void displayPressureAndHumidityScreen() {
  
   display.setTextSize(1);
   IPAddress ipAddress = WiFi.localIP();
-  if (ipAddress.toString() == "") {
+  if (ipAddress.toString() == "0.0.0.0") {
     ipAddress = WiFi.softAPIP();
   }
   display.println(ipAddress);
