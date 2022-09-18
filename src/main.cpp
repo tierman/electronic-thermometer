@@ -133,7 +133,6 @@ void loop() {
 }
 
 String processor(const String& var){
-  //Serial.println(var);
   if(var == "TEMPERATURE"){
     return String(bmp.getTemperature());
   }
