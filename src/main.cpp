@@ -157,7 +157,10 @@ void displayPressureAndHumidityScreen() {
   display.println();
  
   display.setTextSize(1);
-  IPAddress ipAddress = WiFi.softAPIP();
+  IPAddress ipAddress = WiFi.localIP();
+  if (ipAddress.toString() == "") {
+    ipAddress = WiFi.softAPIP();
+  }
   display.println(ipAddress);
   display.display();
 }
