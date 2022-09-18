@@ -38,6 +38,14 @@ Write about 1-2 paragraphs describing the purpose of your project.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
+Clone github repo into lib directory:
+git clone https://github.com/me-no-dev/ESPAsyncWebServer.git
+git clone https://github.com/enjoyneering/BMP180.git
+git clone https://github.com/adafruit/Adafruit-GFX-Library.git
+git clone https://github.com/adafruit/Adafruit_SSD1306.git
+git clone https://github.com/adafruit/Adafruit_Sensor.git
+git clone https://github.com/adafruit/Adafruit_BusIO.git
+
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 
 ### Prerequisites

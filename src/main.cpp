@@ -71,19 +71,24 @@ void displayPressureAndHumidityScreen() {
   display.setCursor(0, 0); // Start at top-left corner
   display.clearDisplay();
 
-  display.println("P:");
   float pressure = bmp.getPressure();
   float pressureInHpa = pressure / 100; // preasure in hectopascals
 
   display.print(pressureInHpa, 1);
+  display.setTextSize(1);
   display.println(" hPa");
 
+  display.setTextSize(2);
   display.print("T:");
   float humidity = bmp.getTemperature();
 
   display.print(humidity);
+  display.setTextSize(1);
   display.println(" C");
-  display.println(WiFi.gatewayIP());
+
+  display.setTextSize(1);
+  IPAddress ipAddress = WiFi.softAPIP();
+  display.println(ipAddress);
   display.display();
 }
 
